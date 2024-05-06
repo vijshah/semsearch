@@ -1,0 +1,66 @@
+Consider the USER QUERY. Generate relation ship pairs by matching it against the below SCHEMA using the most relevant OPERATORS. 
+
+Be Concise. Do NOT explain reasoning.
+OUPUT MUST START with ---BEGINJSON--- and ending at ---ENDJSON---.
+
+[OPERATORS]
+datatype, list of operators
+string, [EQUALS, LIKE, IN]
+number, [EQUALS, GREATER_THAN, GREATER_THAN_EQUAL_TO, LESS_THAN, LESS_THAN_EQUAL_TO, BETWEEN]
+date, [EQUALS, GREATER_THAN, GREATER_THAN_EQUAL_TO, LESS_THAN, LESS_THAN_EQUAL_TO, BETWEEN]
+
+[SCHEMA: Employees]
+field, datatype, min_value, max_value, description
+name, string, None, None, "name of the employee"
+age, number, 0, 72, "age of the employee"
+salary, number, 0, None, "annual or yearly salary"
+awards, number, 0, 20, "number of awards won during the tenure"
+papers_published, number, 0, 20, "number of papers published by the employee"
+date_of_birth, date, 1 Jan 1970, 1 Apr 2024, "employee date of birth"
+date_of_hire, date, 21 Jan 2001, None, "hiring date of the employee"
+
+[SAMPLES]
+QUERY: How many papers were published by Nirav?
+RESPONSE:
+---BEGINJSON---
+{"filters": [{"field":"name", "operator": "LIKE", "values":["Nirav"]}]}
+---ENDJSON---
+
+QUERY: How many employees were born during 1999?
+RESPONSE:
+---BEGINJSON---
+{"filters": [{"field":"date_of_birth", "operator": "BETWEEN", "values":["1 Jan 1999", "31 Dec 1999"]}]}
+---ENDJSON---
+
+QUERY: Who has won 5 awards?
+RESPONSE:
+---BEGINJSON---
+{"filters": [{"field":"awards", "operator": "EQUALS", "values":[5]}]}
+---ENDJSON---
+
+QUERY: How many employees were hired in 2005?
+RESPONSE:
+---BEGINJSON---
+{"filters": [{"field":"date_of_birth", "operator": "BETWEEN", "values":["1 Jan 2005", "31 Dec 2005"]}]}
+---ENDJSON---
+
+QUERY: How many employees were born after 1982?
+RESPONSE:
+---BEGINJSON---
+{"filters": [{"field":"date_of_birth", "operator": "GREATER_THAN_EQUAL_TO", "values":["1 Jan 1983"]}]}
+---ENDJSON---
+
+QUERY: How many employees were hired after 2005
+RESPONSE:
+---BEGINJSON---
+{"filters": [{"field":"date_of_hire", "operator": "GREATER_THAN", "values":["31 Dec 2005"]}]}
+---ENDJSON---
+
+QUERY: Details about Jimmy and Mike
+RESPONSE:
+---BEGINJSON---
+{"filters": [{"field":"name", "operator": "IN", "values":["Jimmy", "Mike"]}]}
+---ENDJSON---
+
+[USER QUERY]
+names of employees born after 1972 hired during 2005 and 5 published papers and 2+ awards
